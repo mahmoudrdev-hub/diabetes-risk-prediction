@@ -25,6 +25,7 @@ diabetes-risk-prediction/
 |   +-- random_forest_undersampling_ensemble_threshold_060.joblib
 +-- notebooks/
 +-- reports/
+|   +-- screenshots/
 +-- src/
 +-- requirements.txt
 +-- README.md
@@ -55,6 +56,12 @@ Then open the API docs:
 ```text
 http://127.0.0.1:8000/docs
 ```
+
+## Swagger API Docs
+
+![Swagger overview](reports/screenshots/swagger-overview.png)
+
+![Predict endpoint expanded](reports/screenshots/swagger-predict-expanded.png)
 
 ## Example Request
 
