@@ -1,88 +1,87 @@
-# Diabetes Risk Prediction
+# Diabetes Risk Prediction API
 
-This project predicts a person's diabetes risk using survey-style health data and a trained machine learning ensemble model.
+A machine learning project that predicts whether a person is at risk of diabetes using survey-style health indicators.
 
-The work includes the training project structure and a small FastAPI app that makes a locally available trained model available through an API.
+The project includes a trained classification workflow, a FastAPI backend, and Docker support for running the API in a reproducible environment.
 
-## What We Built
+## Project Overview
 
-- Trained and saved a Random Forest undersampling ensemble model.
-- Loads the final model from `models/random_forest_undersampling_ensemble_threshold_060.joblib`.
-- Created a FastAPI app in `app/main.py`.
-- Added a `/predict` endpoint that accepts patient health features and returns:
-  - the predicted class
-  - the diabetes probability
-  - a human-readable prediction label
+This project was built as an end-to-end machine learning workflow:
+
+- Data exploration and preprocessing
+- Model training and evaluation
+- Handling class imbalance
+- Saving the final trained model
+- Building an API with FastAPI
+- Dockerizing the API
+- Preparing the project for GitHub and portfolio use
+
+The API accepts health-related input features and returns:
+
+- The predicted class
+- The diabetes risk probability
+- A readable prediction label
+
+## Tech Stack
+
+- Python
+- Pandas
+- NumPy
+- Scikit-learn
+- Joblib
+- PyArrow
+- FastAPI
+- Uvicorn
+- Docker
+- Git / GitHub
 
 ## Project Structure
 
 ```text
 diabetes-risk-prediction/
-+-- app/
-|   +-- main.py
-+-- data/
-+-- models/
-|   +-- random_forest_undersampling_ensemble_threshold_060.joblib  (not included in GitHub)
-+-- notebooks/
-+-- reports/
-|   +-- screenshots/
-+-- src/
-+-- requirements.txt
-+-- README.md
+|-- app/
+|   |-- __init__.py
+|   |-- main.py
+|   |-- predict.py
+|   `-- schemas.py
+|-- models/
+|   `-- random_forest_undersampling_ensemble_threshold_060.joblib  (local only, not included in GitHub)
+|-- notebooks/
+|   `-- 01_eda.ipynb
+|-- reports/
+|   `-- screenshots/
+|       |-- swagger-overview.png
+|       `-- swagger-predict-expanded.png
+|-- src/
+|   `-- model_features.py
+|-- Dockerfile
+|-- .dockerignore
+|-- .gitignore
+|-- requirements.txt
+`-- README.md
 ```
 
-## Model File
+## Important Note About the Model File
 
-The trained model file is not included in this repository because it is too large for GitHub.
+The trained model file is not included in this GitHub repository because it is too large for GitHub.
 
-To run the API locally, place the model file here:
+The API expects the model file to exist locally at:
 
 ```text
 models/random_forest_undersampling_ensemble_threshold_060.joblib
 ```
 
-## How To Run The API
+To run the project successfully, place the trained model file inside the `models/` folder before starting the API.
 
-Open PowerShell in the project folder:
+The model file is ignored by Git using `.gitignore`, so it can remain available locally without being pushed to GitHub.
 
-```powershell
-cd "C:\Users\cs\Desktop\diabetes-risk-prediction"
-```
+## API Endpoint
 
-Install the required packages:
+### `POST /predict`
 
-```powershell
-pip install -r requirements.txt
-```
-
-Start the API:
-
-```powershell
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
-```
-
-Or build and run it with Docker:
-
-```powershell
-docker build -t diabetes-risk-api .
-docker run -d --name diabetes-risk-api-test -p 8000:8000 -v "${PWD}\models:/app/models:ro" diabetes-risk-api
-```
-
-Then open the API docs:
-
-```text
-http://127.0.0.1:8000/docs
-```
-
-## Swagger API Docs
-
-![Swagger overview](reports/screenshots/swagger-overview.png)
-
-![Predict endpoint expanded](reports/screenshots/swagger-predict-expanded.png)
+This endpoint receives patient health features and returns a diabetes risk prediction.
 
 ## Example Request
-
-Use the `/predict` endpoint with JSON like this:
 
 ```json
 {
@@ -110,7 +109,7 @@ Use the `/predict` endpoint with JSON like this:
 }
 ```
 
-Example response:
+## Example Response
 
 ```json
 {
@@ -120,8 +119,120 @@ Example response:
 }
 ```
 
+## How to Run Locally Without Docker
+
+Open PowerShell inside the project folder:
+
+```powershell
+cd "C:\Users\cs\Desktop\diabetes-risk-prediction"
+```
+
+Install the required packages:
+
+```powershell
+pip install -r requirements.txt
+```
+
+Start the FastAPI server:
+
+```powershell
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+```
+
+Then open:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+## How to Run With Docker
+
+Make sure Docker Desktop is running.
+
+From the project folder, build the Docker image:
+
+```powershell
+docker build -t diabetes-risk-api .
+```
+
+Run the container and mount the local `models` folder:
+
+```powershell
+docker run -d --name diabetes-risk-api-test -p 8000:8000 -v "${PWD}\models:/app/models:ro" diabetes-risk-api
+```
+
+Then open the Swagger UI:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+The `-v "${PWD}\models:/app/models:ro"` part mounts the local `models` folder into the Docker container as read-only, allowing the API to access the model without copying the large model file into the Docker image.
+
+## Stop and Remove the Docker Container
+
+After testing, stop and remove the container:
+
+```powershell
+docker rm -f diabetes-risk-api-test
+```
+
+## Verification Commands
+
+These commands can be used to verify that the repository and Docker setup are working correctly.
+
+Check Git status:
+
+```powershell
+git status
+```
+
+Expected result:
+
+```text
+nothing to commit, working tree clean
+```
+
+Check that the model file is not tracked by Git:
+
+```powershell
+git ls-files models
+```
+
+Expected result: no output.
+
+Check that the Python files compile correctly:
+
+```powershell
+python -m py_compile app/main.py app/schemas.py
+```
+
+Expected result: no output.
+
+Build the Docker image:
+
+```powershell
+docker build -t diabetes-risk-api .
+```
+
+Expected result: build succeeds.
+
+## Swagger API Docs
+
+After running the API, Swagger documentation is available at:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+Screenshots:
+
+![Swagger overview](reports/screenshots/swagger-overview.png)
+
+![Predict endpoint expanded](reports/screenshots/swagger-predict-expanded.png)
+
 ## Notes
 
-The model file is large, so it is best to run the API without `--reload`.
+This project is intended for machine learning portfolio demonstration and experimentation.
 
-This API is intended for project demonstration and experimentation, not for medical diagnosis.
+It is not intended for real medical diagnosis or clinical decision-making.
