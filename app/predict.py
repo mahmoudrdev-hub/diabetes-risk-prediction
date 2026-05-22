@@ -14,7 +14,7 @@ from src.model_features import add_engineered_features
 MODEL_PATH = (
     PROJECT_ROOT
     / "models"
-    / "random_forest_undersampling_ensemble_threshold_060.joblib"
+    / "diabetes_risk_model.joblib"
 )
 
 setattr(sys.modules["__main__"], "add_engineered_features", add_engineered_features)

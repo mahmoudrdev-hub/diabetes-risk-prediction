@@ -8,3 +8,4 @@ __pycache__
 .vscode
 models/*.pkl
 models/*.joblib
+models/.cache

@@ -30,6 +30,7 @@ The API accepts health-related input features and returns:
 - Scikit-learn
 - Joblib
 - PyArrow
+- Hugging Face Hub
 - FastAPI
 - Uvicorn
 - Docker
@@ -45,7 +46,7 @@ diabetes-risk-prediction/
 |   |-- predict.py
 |   `-- schemas.py
 |-- models/
-|   `-- random_forest_undersampling_ensemble_threshold_060.joblib  (local only, not included in GitHub)
+|   `-- diabetes_risk_model.joblib  (downloaded locally, not included in GitHub)
 |-- notebooks/
 |   `-- 01_eda.ipynb
 |-- reports/
@@ -57,21 +58,33 @@ diabetes-risk-prediction/
 |-- Dockerfile
 |-- .dockerignore
 |-- .gitignore
+|-- download_model.py
 |-- requirements.txt
 `-- README.md
 ```
 
-## Important Note About the Model File
+## Model
 
-The trained model file is not included in this GitHub repository because it is too large for GitHub.
+The trained model file is hosted on Hugging Face Hub and is not included directly in this GitHub repository because it is too large for GitHub.
+
+Model repository:
+
+```text
+https://huggingface.co/MahmoudRamadanDev/diabetes-risk-prediction-rf
+```
 
 The API expects the model file to exist locally at:
 
 ```text
-models/random_forest_undersampling_ensemble_threshold_060.joblib
+models/diabetes_risk_model.joblib
 ```
 
-To run the project successfully, place the trained model file inside the `models/` folder before starting the API.
+Install the project requirements and download the model before starting the API:
+
+```powershell
+pip install -r requirements.txt
+python download_model.py
+```
 
 The model file is ignored by Git using `.gitignore`, so it can remain available locally without being pushed to GitHub.
 
@@ -133,6 +146,12 @@ Install the required packages:
 pip install -r requirements.txt
 ```
 
+Download the model from Hugging Face:
+
+```powershell
+python download_model.py
+```
+
 Start the FastAPI server:
 
 ```powershell
@@ -153,6 +172,12 @@ From the project folder, build the Docker image:
 
 ```powershell
 docker build -t diabetes-risk-api .
+```
+
+Download the model if it is not already available locally:
+
+```powershell
+python download_model.py
 ```
 
 Run the container and mount the local `models` folder:

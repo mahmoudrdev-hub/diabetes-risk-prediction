@@ -18,7 +18,7 @@ app = FastAPI()
 MODEL_PATH = (
     PROJECT_ROOT
     / "models"
-    / "random_forest_undersampling_ensemble_threshold_060.joblib"
+    / "diabetes_risk_model.joblib"
 )
 
 
