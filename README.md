@@ -2,12 +2,12 @@
 
 This project predicts a person's diabetes risk using survey-style health data and a trained machine learning ensemble model.
 
-The work includes the training project structure, the saved model, and a small FastAPI app that makes the model available through an API.
+The work includes the training project structure and a small FastAPI app that makes a locally available trained model available through an API.
 
 ## What We Built
 
 - Trained and saved a Random Forest undersampling ensemble model.
-- Stored the final model in `models/random_forest_undersampling_ensemble_threshold_060.joblib`.
+- Loads the final model from `models/random_forest_undersampling_ensemble_threshold_060.joblib`.
 - Created a FastAPI app in `app/main.py`.
 - Added a `/predict` endpoint that accepts patient health features and returns:
   - the predicted class
@@ -22,13 +22,23 @@ diabetes-risk-prediction/
 |   +-- main.py
 +-- data/
 +-- models/
-|   +-- random_forest_undersampling_ensemble_threshold_060.joblib
+|   +-- random_forest_undersampling_ensemble_threshold_060.joblib  (not included in GitHub)
 +-- notebooks/
 +-- reports/
 |   +-- screenshots/
 +-- src/
 +-- requirements.txt
 +-- README.md
+```
+
+## Model File
+
+The trained model file is not included in this repository because it is too large for GitHub.
+
+To run the API locally, place the model file here:
+
+```text
+models/random_forest_undersampling_ensemble_threshold_060.joblib
 ```
 
 ## How To Run The API

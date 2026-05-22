@@ -1,7 +1,10 @@
 __pycache__/
 *.py[cod]
 desktop.ini
+.env
 .venv/
 .vscode/
 models/*.pkl
 models/*.joblib
+*.csv
+.ipynb_checkpoints/
