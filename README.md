@@ -61,6 +61,13 @@ Start the API:
 python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
+Or build and run it with Docker:
+
+```powershell
+docker build -t diabetes-risk-api .
+docker run -d --name diabetes-risk-api-test -p 8000:8000 -v "${PWD}\models:/app/models:ro" diabetes-risk-api
+```
+
 Then open the API docs:
 
 ```text
