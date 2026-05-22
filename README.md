@@ -88,7 +88,25 @@ python download_model.py
 
 The model file is ignored by Git using `.gitignore`, so it can remain available locally without being pushed to GitHub.
 
+## Model Performance
+
+The saved model artifact includes the following test-set metrics:
+
+| Model | Threshold | Positive Recall | Positive Precision | Positive F1 | Macro F1 | Balanced Accuracy |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Random Forest | 0.60 | 0.7323 | 0.3559 | 0.4791 | 0.6569 | 0.7422 |
+
 ## API Endpoint
+
+### `GET /health`
+
+Returns a simple health check response:
+
+```json
+{
+  "status": "ok"
+}
+```
 
 ### `POST /predict`
 
@@ -137,7 +155,7 @@ This endpoint receives patient health features and returns a diabetes risk predi
 Open PowerShell inside the project folder:
 
 ```powershell
-cd "C:\Users\cs\Desktop\diabetes-risk-prediction"
+cd diabetes-risk-prediction
 ```
 
 Install the required packages:

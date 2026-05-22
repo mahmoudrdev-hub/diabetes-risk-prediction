@@ -22,6 +22,11 @@ MODEL_PATH = (
 )
 
 
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+
 @lru_cache(maxsize=1)
 def load_model():
     try:
